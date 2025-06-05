@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title>SVG Progress Sample</title>
+  <style>
+    .progress-ring {
+      width: 120px;
+      height: 120px;
+    }
+    .progress-ring circle {
+      fill: transparent;
+      stroke-width: 10;
+      stroke: #4caf50;
+      stroke-linecap: round;
+      transform: rotate(-90deg);
+      transform-origin: 50% 50%;
+    }
+    .background {
+      stroke: #eee;
+    }
+  </style>
+</head>
+<body>
+  <svg class="progress-ring" viewBox="0 0 120 120">
+    <circle class="background" cx="60" cy="60" r="50" />
+    <circle class="progress" cx="60" cy="60" r="50" stroke-dasharray="314" stroke-dashoffset="78" />
+  </svg>
+  <p>進捗：75%</p>
+</body>
+</html>
