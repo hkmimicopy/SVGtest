@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html lang="ja">
 <head>
   <meta charset="UTF-8" />
@@ -11,14 +10,17 @@
     table { width: 100%; border-collapse: collapse; }
     th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
     th { background: #fafafa; }
-    button { padding: 5px 10px; }
+    button { padding: 5px 10px; margin: 2px; }
     .result { margin-top: 20px; }
     input { width: 100%; padding: 8px; }
+    .instruction { margin-bottom: 15px; font-weight: bold; }
   </style>
 </head>
 <body>
 <div class="container">
   <h1>ユーザー一覧（10行×5列）</h1>
+  <div class="instruction" id="instruction"></div>
+  <button onclick="resetInstruction()">リロード</button>
   <table>
     <thead>
       <tr>
@@ -30,16 +32,16 @@
       </tr>
     </thead>
     <tbody>
-      <tr><td>4832</td><td>ユーザー1</td><td>商品部</td><td>東京都</td><td><button onclick="showId('4832')">選択</button></td></tr>
-      <tr><td>7159</td><td>ユーザー2</td><td>開発部</td><td>大阪府</td><td><button onclick="showId('7159')">選択</button></td></tr>
+      <tr><td>4832</td><td>ユーザー1</td><td>商品部</td><td>北海道</td><td><button onclick="showId('4832')">選択</button></td></tr>
+      <tr><td>7159</td><td>ユーザー2</td><td>開発部</td><td>北海道</td><td><button onclick="showId('7159')">選択</button></td></tr>
       <tr><td>6041</td><td>ユーザー3</td><td>営業部</td><td>北海道</td><td><button onclick="showId('6041')">選択</button></td></tr>
-      <tr><td>5298</td><td>ユーザー4</td><td>技術部</td><td>愛知県</td><td><button onclick="showId('5298')">選択</button></td></tr>
-      <tr><td>1984</td><td>ユーザー5</td><td>商品部</td><td>福岡県</td><td><button onclick="showId('1984')">選択</button></td></tr>
-      <tr><td>8720</td><td>ユーザー6</td><td>開発部</td><td>京都府</td><td><button onclick="showId('8720')">選択</button></td></tr>
-      <tr><td>3165</td><td>ユーザー7</td><td>営業部</td><td>神奈川県</td><td><button onclick="showId('3165')">選択</button></td></tr>
-      <tr><td>4907</td><td>ユーザー8</td><td>技術部</td><td>広島県</td><td><button onclick="showId('4907')">選択</button></td></tr>
-      <tr><td>2513</td><td>ユーザー9</td><td>商品部</td><td>宮城県</td><td><button onclick="showId('2513')">選択</button></td></tr>
-      <tr><td>7894</td><td>ユーザー10</td><td>開発部</td><td>長野県</td><td><button onclick="showId('7894')">選択</button></td></tr>
+      <tr><td>5298</td><td>ユーザー4</td><td>技術部</td><td>北海道</td><td><button onclick="showId('5298')">選択</button></td></tr>
+      <tr><td>1984</td><td>ユーザー5</td><td>商品部</td><td>東京都</td><td><button onclick="showId('1984')">選択</button></td></tr>
+      <tr><td>8720</td><td>ユーザー6</td><td>開発部</td><td>東京都</td><td><button onclick="showId('8720')">選択</button></td></tr>
+      <tr><td>3165</td><td>ユーザー7</td><td>営業部</td><td>東京都</td><td><button onclick="showId('3165')">選択</button></td></tr>
+      <tr><td>4907</td><td>ユーザー8</td><td>技術部</td><td>東京都</td><td><button onclick="showId('4907')">選択</button></td></tr>
+      <tr><td>2513</td><td>ユーザー9</td><td>商品部</td><td>沖縄県</td><td><button onclick="showId('2513')">選択</button></td></tr>
+      <tr><td>7894</td><td>ユーザー10</td><td>開発部</td><td>沖縄県</td><td><button onclick="showId('7894')">選択</button></td></tr>
     </tbody>
   </table>
   <div class="result">
@@ -51,6 +53,17 @@
 function showId(id) {
   document.getElementById('resultBox').value = id;
 }
+
+function resetInstruction() {
+  const rows = document.querySelectorAll('#tableBody tr');
+  const randomRow = rows[Math.floor(Math.random() * rows.length)];
+  const dept = randomRow.cells[2].textContent;
+  const loc = randomRow.cells[3].textContent;
+  document.getElementById('instruction').textContent = `所属部署：${dept} 所在地：${loc} のボタンを選んでください`;
+}
+
+// 初期表示
+resetInstruction();
 </script>
 </body>
 </html>
