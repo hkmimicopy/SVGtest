@@ -1,31 +1,56 @@
 <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ja">
 <head>
   <meta charset="UTF-8" />
-  <title>SVG Progress Sample</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ユーザー一覧（固定値）</title>
   <style>
-    .progress-ring {
-      width: 120px;
-      height: 120px;
-    }
-    .progress-ring circle {
-      fill: transparent;
-      stroke-width: 10;
-      stroke: #4caf50;
-      stroke-linecap: round;
-      transform: rotate(-90deg);
-      transform-origin: 50% 50%;
-    }
-    .background {
-      stroke: #eee;
-    }
+    body { font-family: Arial, sans-serif; background: #f7f7fb; }
+    .container { max-width: 960px; margin: 40px auto; padding: 20px; background: #fff; border-radius: 8px; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+    th { background: #fafafa; }
+    button { padding: 5px 10px; }
+    .result { margin-top: 20px; }
+    input { width: 100%; padding: 8px; }
   </style>
 </head>
 <body>
-  <svg class="progress-ring" viewBox="0 0 120 120">
-    <circle class="background" cx="60" cy="60" r="50" />
-    <circle class="progress" cx="60" cy="60" r="50" stroke-dasharray="314" stroke-dashoffset="78" />
-  </svg>
-  <p>進捗：75%</p>
+<div class="container">
+  <h1>ユーザー一覧（10行×5列）</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>ユーザー名</th>
+        <th>所属部署</th>
+        <th>所在地</th>
+        <th>ボタン</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>4832</td><td>ユーザー1</td><td>商品部</td><td>東京都</td><td><button onclick="showId('4832')">選択</button></td></tr>
+      <tr><td>7159</td><td>ユーザー2</td><td>開発部</td><td>大阪府</td><td><button onclick="showId('7159')">選択</button></td></tr>
+      <tr><td>6041</td><td>ユーザー3</td><td>営業部</td><td>北海道</td><td><button onclick="showId('6041')">選択</button></td></tr>
+      <tr><td>5298</td><td>ユーザー4</td><td>技術部</td><td>愛知県</td><td><button onclick="showId('5298')">選択</button></td></tr>
+      <tr><td>1984</td><td>ユーザー5</td><td>商品部</td><td>福岡県</td><td><button onclick="showId('1984')">選択</button></td></tr>
+      <tr><td>8720</td><td>ユーザー6</td><td>開発部</td><td>京都府</td><td><button onclick="showId('8720')">選択</button></td></tr>
+      <tr><td>3165</td><td>ユーザー7</td><td>営業部</td><td>神奈川県</td><td><button onclick="showId('3165')">選択</button></td></tr>
+      <tr><td>4907</td><td>ユーザー8</td><td>技術部</td><td>広島県</td><td><button onclick="showId('4907')">選択</button></td></tr>
+      <tr><td>2513</td><td>ユーザー9</td><td>商品部</td><td>宮城県</td><td><button onclick="showId('2513')">選択</button></td></tr>
+      <tr><td>7894</td><td>ユーザー10</td><td>開発部</td><td>長野県</td><td><button onclick="showId('7894')">選択</button></td></tr>
+    </tbody>
+  </table>
+  <div class="result">
+    <label for="resultBox">選択されたID</label>
+    <input id="resultBox" type="text" placeholder="ここにIDが表示されます" readonly />
+  </div>
+</div>
+<script>
+function showId(id) {
+  document.getElementById('resultBox').value = id;
+}
+</script>
 </body>
 </html>
