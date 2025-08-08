@@ -14,11 +14,11 @@
     .result { margin-top: 20px; }
     input { width: 100%; padding: 8px; }
     .instruction { margin-bottom: 15px; font-weight: bold; white-space: pre-line; }
+    .judge { margin-top: 10px; font-weight: bold; }
   </style>
 </head>
 <body>
 <div class="container">
-  <h1>ユーザー一覧（10行×5列）</h1>
   <div class="instruction" id="instruction"></div>
   <button onclick="resetInstruction()">リロード</button>
   <table>
@@ -47,11 +47,22 @@
   <div class="result">
     <label for="resultBox">選択されたID</label>
     <input id="resultBox" type="text" placeholder="ここにIDが表示されます" readonly />
+    <div id="judgeResult" class="judge"></div>
   </div>
 </div>
 <script>
+let targetId = null;
+
 function showId(id) {
   document.getElementById('resultBox').value = id;
+  const judge = document.getElementById('judgeResult');
+  if (id === targetId) {
+    judge.textContent = '正解！';
+    judge.style.color = 'green';
+  } else {
+    judge.textContent = '不正解';
+    judge.style.color = 'red';
+  }
 }
 
 function resetInstruction() {
@@ -59,7 +70,9 @@ function resetInstruction() {
   const randomRow = rows[Math.floor(Math.random() * rows.length)];
   const dept = randomRow.cells[2].textContent;
   const loc = randomRow.cells[3].textContent;
-  document.getElementById('instruction').textContent = `ランダムな行を選んで\n所属部署：${dept}\n所在地：${loc}\nのボタンを選んでください`;
+  targetId = randomRow.cells[0].textContent;
+  document.getElementById('instruction').textContent = `所属部署：${dept}\n所在地：${loc}\nのボタンを選んでください`;
+  document.getElementById('judgeResult').textContent = '';
 }
 
 document.addEventListener('DOMContentLoaded', resetInstruction);
