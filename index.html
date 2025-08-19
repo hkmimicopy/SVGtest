@@ -1,81 +1,19 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>ユーザー一覧（固定値）</title>
-  <style>
-    body { font-family: Arial, sans-serif; background: #f7f7fb; }
-    .container { max-width: 960px; margin: 40px auto; padding: 20px; background: #fff; border-radius: 8px; }
-    table { width: 100%; border-collapse: collapse; }
-    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
-    th { background: #fafafa; }
-    button { padding: 5px 10px; margin: 2px; }
-    .result { margin-top: 20px; }
-    input { width: 100%; padding: 8px; }
-    .instruction { margin-bottom: 15px; font-weight: bold; white-space: pre-line; }
-    .judge { margin-top: 10px; font-weight: bold; }
-  </style>
+  <meta charset="UTF-8">
+  <title>ホームページ</title>
+  <!-- 外部CSSを参照 -->
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div class="container">
-  <div class="instruction" id="instruction"></div>
-  <button onclick="resetInstruction()">リロード</button>
-  <table>
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>ユーザー名</th>
-        <th>所属部署</th>
-        <th>所在地</th>
-        <th>ボタン</th>
-      </tr>
-    </thead>
-    <tbody id="tableBody">
-      <tr><td>1</td><td>ユーザー1</td><td>商品部</td><td>北海道</td><td><button onclick="showId('1')">選択</button></td></tr>
-      <tr><td>2</td><td>ユーザー2</td><td>開発部</td><td>北海道</td><td><button onclick="showId('2')">選択</button></td></tr>
-      <tr><td>3</td><td>ユーザー3</td><td>営業部</td><td>北海道</td><td><button onclick="showId('3')">選択</button></td></tr>
-      <tr><td>4</td><td>ユーザー4</td><td>技術部</td><td>北海道</td><td><button onclick="showId('4')">選択</button></td></tr>
-      <tr><td>5</td><td>ユーザー5</td><td>商品部</td><td>東京都</td><td><button onclick="showId('5')">選択</button></td></tr>
-      <tr><td>6</td><td>ユーザー6</td><td>開発部</td><td>東京都</td><td><button onclick="showId('6')">選択</button></td></tr>
-      <tr><td>7</td><td>ユーザー7</td><td>営業部</td><td>東京都</td><td><button onclick="showId('7')">選択</button></td></tr>
-      <tr><td>8</td><td>ユーザー8</td><td>技術部</td><td>東京都</td><td><button onclick="showId('8')">選択</button></td></tr>
-      <tr><td>9</td><td>ユーザー9</td><td>商品部</td><td>沖縄県</td><td><button onclick="showId('9')">選択</button></td></tr>
-      <tr><td>10</td><td>ユーザー10</td><td>開発部</td><td>沖縄県</td><td><button onclick="showId('10')">選択</button></td></tr>
-    </tbody>
-  </table>
-  <div class="result">
-    <label for="resultBox">選択されたID</label>
-    <input id="resultBox" type="text" placeholder="ここにIDが表示されます" readonly />
-    <div id="judgeResult" class="judge"></div>
-  </div>
-</div>
-<script>
-let targetId = null;
-
-function showId(id) {
-  document.getElementById('resultBox').value = id;
-  const judge = document.getElementById('judgeResult');
-  if (id === targetId) {
-    judge.textContent = '正解！';
-    judge.style.color = 'green';
-  } else {
-    judge.textContent = '不正解';
-    judge.style.color = 'red';
-  }
-}
-
-function resetInstruction() {
-  const rows = document.querySelectorAll('#tableBody tr');
-  const randomRow = rows[Math.floor(Math.random() * rows.length)];
-  const dept = randomRow.cells[2].textContent;
-  const loc = randomRow.cells[3].textContent;
-  targetId = randomRow.cells[0].textContent;
-  document.getElementById('instruction').textContent = `所属部署：${dept}\n所在地：${loc}\nのボタンを選んでください`;
-  document.getElementById('judgeResult').textContent = '';
-}
-
-document.addEventListener('DOMContentLoaded', resetInstruction);
-</script>
-</body>
-</html>
+  <header>
+    テストページホーム画面
+  </header>
+  <main>
+    <div class="card"><a href="TableButtonSelect.html">TableButtonSelect</a></div>
+    <div class="card"><a href="DownloadTest.html">DownloadTest</a></div>
+  </main>
+  <footer>
+    © 2025 hkmimicopy
+  </footer>
