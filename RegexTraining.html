@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Regex Training</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .regex-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 70vh;
+      font-size: 1.5rem;
+      font-weight: bold;
+      gap: 2rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    正規表現練習ページ
+  </header>
+  <main>
+    <div class="regex-container">
+      <div id="order-number-numeric">受注番号はXXXXXXXXです。</div>
+      <div id="order-number-alnum">受注番号はYYYYYYYYです。</div>
+      <button onclick="generateNumbers()">更新する</button>
+    </div>
+  </main>
+  <footer>
+    © 2025 hkmimicopy
+  </footer>
+
+  <script>
+    // 数字8桁を生成
+    function generateNumericId() {
+      return String(Math.floor(Math.random() * 1e8)).padStart(8, '0');
+    }
+
+    // 英数字8桁を生成
+    function generateAlnumId() {
+      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+      let result = '';
+      for (let i = 0; i < 8; i++) {
+        result += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      return result;
+    }
+
+    // 画面に表示
+    function generateNumbers() {
+      document.getElementById("order-number-numeric").innerText =
+        "受注番号は" + generateNumericId() + "です。";
+      document.getElementById("order-number-alnum").innerText =
+        "受注番号は" + generateAlnumId() + "です。";
+    }
+
+    // 初期表示時に生成
+    window.onload = generateNumbers;
+  </script>
+</body>
+</html>
