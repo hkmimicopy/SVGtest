@@ -10,30 +10,104 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      height: 70vh;
-      font-size: 1.5rem;
-      font-weight: bold;
+      min-height: 70vh;
       gap: 2rem;
+    }
+    .block {
+      background: white;
+      border-radius: 12px;
+      padding: 1.5rem 2rem;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+      text-align: center;
+      width: min(680px, 92vw);
+    }
+    .title {
+      font-size: 1.25rem;
+      font-weight: bold;
+      margin-bottom: .5rem;
+    }
+    .display {
+      font-size: 1.4rem;
+      font-weight: bold;
+      margin: .25rem 0 1rem;
+      letter-spacing: .05em;
+      user-select: text;
+    }
+    .row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: .75rem;
+      flex-wrap: wrap;
+    }
+    .result {
+      margin-top: .75rem;
+      font-weight: bold;
+      min-height: 1.2em;
+    }
+    .ok  { color: #2ecc71; }
+    .ng  { color: #e74c3c; }
+    .toolbar {
+      display: flex;
+      justify-content: center;
+      gap: .75rem;
+      margin-top: .5rem;
+    }
+    .hint {
+      margin-top: .5rem;
+      font-size: .92rem;
+      color: #718093;
     }
   </style>
 </head>
 <body>
-  <header>
-    正規表現練習ページ
-  </header>
+  <header>正規表現練習ページ</header>
+  <div class="link_container"><a href="index.html">ホームページへ戻る</a></div>
   <main>
     <div class="regex-container">
-      <div id="order-number-numeric">受注番号はXXXXXXXXです。</div>
-      <div id="order-number-alnum">受注番号はYYYYYYYYです。</div>
-      <button onclick="generateNumbers()">更新する</button>
+      <!-- 数字8桁 -->
+      <section class="block" id="block-numeric">
+        <div class="title">① 数字8桁を抽出</div>
+        <div class="display" id="display-numeric">受注番号はXXXXXXXXです。</div>
+        <div class="row">
+          <input id="input-numeric" type="text" autocomplete="off" placeholder="抽出した8桁の数字を入力">
+          <button id="btn-check-numeric">判定する</button>
+        </div>
+        <div class="result" id="result-numeric" aria-live="polite"></div>
+      </section>
+
+      <!-- 英数字8桁 -->
+      <section class="block" id="block-alnum">
+        <div class="title">② 英数字8桁を抽出</div>
+        <div class="display" id="display-alnum">受注番号はYYYYYYYYです。</div>
+        <div class="row">
+          <input id="input-alnum" type="text" autocomplete="off" placeholder="抽出した英数字8桁を入力">
+          <button id="btn-check-alnum">判定する</button>
+        </div>
+        <div class="result" id="result-alnum" aria-live="polite"></div>
+      </section>
+
+      <!-- 英数字8〜10桁 -->
+      <section class="block" id="block-alnum-var">
+        <div class="title">③ 英数字8〜10桁を抽出</div>
+        <div class="display" id="display-alnum-var">受注番号はZZZZZZZZです。</div>
+        <div class="row">
+          <input id="input-alnum-var" type="text" autocomplete="off" placeholder="抽出した英数字8〜10桁を入力">
+          <button id="btn-check-alnum-var">判定する</button>
+        </div>
+        <div class="result" id="result-alnum-var" aria-live="polite"></div>
+      </section>
+
+      <div class="toolbar">
+        <button id="btn-refresh">更新</button>
+      </div>
     </div>
   </main>
-  <footer>
-    © 2025 hkmimicopy
-  </footer>
+
+  <footer>© 2025 hkmimicopy</footer>
 
   <script>
-    // 数字8桁を生成
+    // 数字8桁を生成（ゼロ埋め）
     function generateNumericId() {
       return String(Math.floor(Math.random() * 1e8)).padStart(8, '0');
     }
@@ -41,23 +115,104 @@
     // 英数字8桁を生成
     function generateAlnumId() {
       const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-      let result = '';
-      for (let i = 0; i < 8; i++) {
-        result += chars.charAt(Math.floor(Math.random() * chars.length));
+      let s = '';
+      for (let i = 0; i < 8; i++) s += chars[Math.floor(Math.random() * chars.length)];
+      return s;
+    }
+
+    // 英数字8〜10桁を生成
+    function generateAlnumVarId() {
+      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+      const length = Math.floor(Math.random() * 3) + 8; // 8〜10
+      let s = '';
+      for (let i = 0; i < length; i++) s += chars[Math.floor(Math.random() * chars.length)];
+      return s;
+    }
+
+    // 現在表示中の値を取り出す
+    function getCurrentValue(displayId) {
+      const text = document.getElementById(displayId).innerText;
+      const m = text.match(/受注番号は(.+?)です。/);
+      return m ? m[1] : '';
+    }
+
+    // 文の更新
+    function renderNewValues() {
+      const num = generateNumericId();
+      const alnum = generateAlnumId();
+      const alnumVar = generateAlnumVarId();
+
+      document.getElementById('display-numeric').innerText = `受注番号は${num}です。`;
+      document.getElementById('display-alnum').innerText = `受注番号は${alnum}です。`;
+      document.getElementById('display-alnum-var').innerText = `受注番号は${alnumVar}です。`;
+
+      // 入力欄リセット
+      document.getElementById('input-numeric').value = '';
+      document.getElementById('input-alnum').value = '';
+      document.getElementById('input-alnum-var').value = '';
+
+      // 結果リセット
+      resetResult('result-numeric');
+      resetResult('result-alnum');
+      resetResult('result-alnum-var');
+    }
+
+    function resetResult(resultId) {
+      const el = document.getElementById(resultId);
+      el.textContent = '';
+      el.classList.remove('ok', 'ng');
+    }
+
+    // 判定処理
+    function judge(inputId, displayId, resultId) {
+      const inputVal = document.getElementById(inputId).value.trim();
+      const answer   = getCurrentValue(displayId);
+      const resultEl = document.getElementById(resultId);
+      resultEl.classList.remove('ok', 'ng');
+
+      if (inputVal === '') {
+        resultEl.textContent = '入力してください';
+        resultEl.classList.add('ng');
+        return;
       }
-      return result;
+
+      if (inputVal === answer) {
+        resultEl.textContent = '正解';
+        resultEl.classList.add('ok');
+      } else {
+        resultEl.textContent = '不正解';
+        resultEl.classList.add('ng');
+      }
     }
 
-    // 画面に表示
-    function generateNumbers() {
-      document.getElementById("order-number-numeric").innerText =
-        "受注番号は" + generateNumericId() + "です。";
-      document.getElementById("order-number-alnum").innerText =
-        "受注番号は" + generateAlnumId() + "です。";
+    function enableEnterToJudge(inputId, clickHandler) {
+      const el = document.getElementById(inputId);
+      el.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') clickHandler();
+      });
     }
 
-    // 初期表示時に生成
-    window.onload = generateNumbers;
+    // イベント設定
+    window.addEventListener('DOMContentLoaded', () => {
+      renderNewValues();
+
+      document.getElementById('btn-refresh')
+        .addEventListener('click', renderNewValues);
+
+      document.getElementById('btn-check-numeric')
+        .addEventListener('click', () => judge('input-numeric', 'display-numeric', 'result-numeric'));
+
+      document.getElementById('btn-check-alnum')
+        .addEventListener('click', () => judge('input-alnum', 'display-alnum', 'result-alnum'));
+
+      document.getElementById('btn-check-alnum-var')
+        .addEventListener('click', () => judge('input-alnum-var', 'display-alnum-var', 'result-alnum-var'));
+
+      // Enterキー対応
+      enableEnterToJudge('input-numeric', () => judge('input-numeric', 'display-numeric', 'result-numeric'));
+      enableEnterToJudge('input-alnum', () => judge('input-alnum', 'display-alnum', 'result-alnum'));
+      enableEnterToJudge('input-alnum-var', () => judge('input-alnum-var', 'display-alnum-var', 'result-alnum-var'));
+    });
   </script>
 </body>
 </html>
